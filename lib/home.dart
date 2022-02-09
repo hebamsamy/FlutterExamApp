@@ -1,8 +1,8 @@
-import 'dart:async';
-
+import 'package:examapp/QuestionBank.dart';
 import 'package:examapp/components/optionCard.dart';
 import 'package:examapp/components/questionCard.dart';
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,20 +12,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String QU1 = "Is Cat an animal?";
-  bool ans1 = true;
+  AudioCache audioCache = AudioCache();
   int result = 0;
   List<Text> ScoreKeeper = [];
+  var nowBank = Bank();
+
   void Check(bool val) {
     setState(() {
-      if (val == ans1) {
+      if (val == nowBank.GetCurrentQuestionAnswer()) {
         result++;
         ScoreKeeper.add(Text("Pravo"));
+        audioCache.play('audio2.mp3');
       } else {
         ScoreKeeper.add(Text("Soo bad!!"));
-        result--;
+        // result--;
       }
     });
+    nowBank.Increment();
   }
 
   @override
@@ -47,7 +50,7 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           QuestionCard(
-            currentText: QU1,
+            currentText: nowBank.GetCurrentQuestionText(),
           ),
           Row(
             children: [

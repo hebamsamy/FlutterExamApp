@@ -12,19 +12,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  AudioCache audioCache = AudioCache();
+  // AudioCache audioCache = AudioCache();
   int result = 0;
   List<Text> ScoreKeeper = [];
   var nowBank = Bank();
 
   void Check(bool val) {
+    final player = AudioCache();
     setState(() {
       if (val == nowBank.GetCurrentQuestionAnswer()) {
         result++;
         ScoreKeeper.add(Text("Pravo"));
-        audioCache.play('audio2.mp3');
+        player.play('right.mp3');
       } else {
         ScoreKeeper.add(Text("Soo bad!!"));
+        player.play('wrong.mp3');
         // result--;
       }
     });
